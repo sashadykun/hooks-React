@@ -1,32 +1,25 @@
-import React, { Component } from 'react';
-import axios from 'axios';
-import { timingSafeEqual } from 'crypto';
+import React from 'react';
 
-class ResourceList extends Component {
+import useResources  from './use_resources';
 
-    state = { resources: [] };
 
-    async componentDidMount(){
-       const resp = await axios.get(`https://jsonplaceholder.typicode.com/${this.props.resource}`);
+const ResourceList = ({ resource } ) =>  {
 
-       this.setState({
-           resources: resp.data
-       })
-    }
+    const resources = useResources(resource);
 
-    async componentDidUpdate(prevProps){
-        if (prevProps.resource !== this.props.resource){
-            const resp = await axios.get(`https://jsonplaceholder.typicode.com/${this.props.resource}`);
+    // const fetchResource = async (resource) => {
+    //    const resp = await axios.get(`https://jsonplaceholder.typicode.com/${resource}`);
 
-            this.setState({
-                resources: resp.data
-            })
-        }
-    }
+    //    setResources(resp.data);
+       
+    // }
 
-    render(){
-        return <div>{this.state.resources.length}</div>
-    }
+    
+    
+    return (
+    <ul>{resources.map(record => <li key={record.id}>{record.title}</li>)}</ul>
+    )
+    
 }
 
 export default ResourceList;
